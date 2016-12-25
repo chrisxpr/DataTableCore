@@ -2,25 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Architected.DataTableCore
 {
     public class DataTableCore
     {
-        private List<DataTableCoreColumn> _columns = new List<DataTableCoreColumn>();
-        private List<Dictionary<string, object>> _rows = new List<Dictionary<string, object>>();
+        public List<DataTableCoreColumn> Columns { get; } = new List<DataTableCoreColumn>();
 
-        public List<DataTableCoreColumn> Columns
-        {
-            get { return _columns; }
-        }
-
-        public List<Dictionary<string, object>> Rows
-        {
-            get { return _rows; }
-        }
+        public List<Dictionary<string, object>> Rows { get; } = new List<Dictionary<string, object>>();
 
         public Dictionary<string, object> NewRow()
         {
@@ -31,32 +20,37 @@ namespace Architected.DataTableCore
         {
             var dataRecords = new List<SqlDataRecord>();
 
-            for (var i = 0; i < _rows.Count; i++)
+            foreach (var t in Rows)
             {
                 var record = CreateTemplateRecord();
 
-                for (var j = 0; j < _columns.Count; j++)
+                for (var j = 0; j < Columns.Count; j++)
                 {
-                    if (_columns[j].Type == SqlDbType.VarChar || _columns[j].Type == SqlDbType.NVarChar)
+                    if (Columns[j].Type == SqlDbType.VarChar || Columns[j].Type == SqlDbType.NVarChar)
                     {
-                        var a = _rows[i][_columns[j].Name] as string;
+                        var a = t[Columns[j].Name] as string;
                         if (a != null) record.SetString(j, a);
                     }
-                    else if (_columns[j].Type == SqlDbType.Int)
+                    else if (Columns[j].Type == SqlDbType.Int)
                     {
-                        var b = Convert.ToInt32(_rows[i][_columns[j].Name]);
+                        var b = Convert.ToInt32(t[Columns[j].Name]);
                         record.SetInt32(j, b);
                     }
-                    else if (_columns[j].Type == SqlDbType.BigInt)
+                    else if (Columns[j].Type == SqlDbType.BigInt)
                     {
-                        var c = Convert.ToInt64(_rows[i][_columns[j].Name]);
+                        var c = Convert.ToInt64(t[Columns[j].Name]);
                         record.SetInt64(j, c);
                     }
-                    else if (_columns[j].Type == SqlDbType.UniqueIdentifier
+                    else if (Columns[j].Type == SqlDbType.UniqueIdentifier
                         )
                     {
-                        var d = (Guid)_rows[i][_columns[j].Name];
+                        var d = (Guid)t[Columns[j].Name];
                         record.SetGuid(j, d);
+                    }
+                    else if (Columns[j].Type == SqlDbType.Bit)
+                    {
+                        var e = Convert.ToBoolean(t[Columns[j].Name]);
+                        record.SetBoolean(j, e);
                     }
                 }
 
@@ -70,9 +64,9 @@ namespace Architected.DataTableCore
         {
             var metaDataList = new List<SqlMetaData>();
 
-            _columns.ForEach(c =>
+            Columns.ForEach(c =>
             {
-                SqlMetaData metaData = null;
+                SqlMetaData metaData;
                 if (c.Type == SqlDbType.NVarChar || c.Type == SqlDbType.VarChar)
                 {
 

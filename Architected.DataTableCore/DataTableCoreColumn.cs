@@ -4,26 +4,24 @@ namespace Architected.DataTableCore
 {
     public class DataTableCoreColumn
     {
-        private string _name;
-        private SqlDbType _type;
-        private long _size;
+        public string Name { get; }
 
-        public string Name => _name;
-        public SqlDbType Type => _type;
-        public long Size => _size;
+        public SqlDbType Type { get; }
+
+        public long Size { get; }
 
         public DataTableCoreColumn(string name, SqlDbType type, long size)
         {
-            _name = name;
-            _type = type;
-            _size = size;
+            Name = name;
+            Type = type;
+            Size = size;
         }
 
         public DataTableCoreColumn(string name, SqlDbType type)
         {
-            _name = name;
-            _type = type;
-            _size = 0;
+            Name = name;
+            Type = type;
+            Size = 0;
         }
     }
 }
