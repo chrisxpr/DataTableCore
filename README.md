@@ -27,7 +27,7 @@ foreach (var item in assetGlobalIdList)
     dr["ColA"] = 12345;
     dr["ColB"] = Guid.Newguid();
     dr["ColC"] = "My normal string";
-    dr["ColD"] = ""My unicode string;
+    dr["ColD"] = "My unicode string";
 	dr["ColE"] = true;
 
     dataTableCore.Rows.Add(dr);
