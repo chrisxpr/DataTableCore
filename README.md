@@ -12,17 +12,17 @@ CREATE TYPE [dbo].[MySimpleType] AS TABLE
 	[ColE] [bit]
 )
 ```
-Create a DataTableCore object as follows:
+Create a DataTable object as follows:
 ```
-var dataTableCore = new DataTableCore.DataTable();
+var dataTable = new DataTableCore.DataTable();
 
-dataTableCore.Columns.Add(new DataTableColumn("ColA", SqlDbType.BigInt));
-dataTableCore.Columns.Add(new DataTableColumn("ColB", SqlDbType.UniqueIdentifier));
-dataTableCore.Columns.Add(new DataTableColumn("ColC", SqlDbType.VarChar));
-dataTableCore.Columns.Add(new DataTableColumn("ColD", SqlDbType.NVarChar));
-dataTableCore.Columns.Add(new DataTableColumn("ColE", SqlDbType.Bit));
+dataTable.Columns.Add(new DataTableColumn("ColA", SqlDbType.BigInt));
+dataTable.Columns.Add(new DataTableColumn("ColB", SqlDbType.UniqueIdentifier));
+dataTable.Columns.Add(new DataTableColumn("ColC", SqlDbType.VarChar));
+dataTable.Columns.Add(new DataTableColumn("ColD", SqlDbType.NVarChar));
+dataTable.Columns.Add(new DataTableColumn("ColE", SqlDbType.Bit));
 
-var dr = dataTableCore.NewRow();
+var dr = dataTable.NewRow();
 
 dr["ColA"] = 1;
 dr["ColB"] = Guid.NewGuid();
@@ -30,14 +30,14 @@ dr["ColC"] = "Hello";
 dr["ColD"] = "Hello Wide";
 dr["ColE"] = true;
 
-dataTableCore.Rows.Add(dr);
+dataTable.Rows.Add(dr);
 ```
 Attach parameter to SqlCommand as follows:
 ```
 var p = command.Parameters.Add("@ItemTable", SqlDbType.Structured);
 p.Direction = ParameterDirection.Input;
 p.TypeName = "MySimpleType";
-p.Value = dataTableCore.CreateDataRecords();
+p.Value = dataTable.CreateDataRecords();
 ```
 I will be working on support for more data types in the coming weeks.
 

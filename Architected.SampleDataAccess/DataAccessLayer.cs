@@ -16,15 +16,15 @@ namespace Architected.SampleDataAccess
 
         public void SaveDataTable()
         {
-            var dataTableCore = new DataTableCore.DataTable();
+            var dataTable = new DataTableCore.DataTable();
 
-            dataTableCore.Columns.Add(new DataTableColumn("ColA", SqlDbType.BigInt));
-            dataTableCore.Columns.Add(new DataTableColumn("ColB", SqlDbType.UniqueIdentifier));
-            dataTableCore.Columns.Add(new DataTableColumn("ColC", SqlDbType.VarChar));
-            dataTableCore.Columns.Add(new DataTableColumn("ColD", SqlDbType.NVarChar));
-            dataTableCore.Columns.Add(new DataTableColumn("ColE", SqlDbType.Bit));
+            dataTable.Columns.Add(new DataTableColumn("ColA", SqlDbType.BigInt));
+            dataTable.Columns.Add(new DataTableColumn("ColB", SqlDbType.UniqueIdentifier));
+            dataTable.Columns.Add(new DataTableColumn("ColC", SqlDbType.VarChar));
+            dataTable.Columns.Add(new DataTableColumn("ColD", SqlDbType.NVarChar));
+            dataTable.Columns.Add(new DataTableColumn("ColE", SqlDbType.Bit));
 
-            var dr = dataTableCore.NewRow();
+            var dr = dataTable.NewRow();
 
             dr["ColA"] = 1;
             dr["ColB"] = Guid.NewGuid();
@@ -32,7 +32,7 @@ namespace Architected.SampleDataAccess
             dr["ColD"] = "Hello Wide";
             dr["ColE"] = true;
 
-            dataTableCore.Rows.Add(dr);
+            dataTable.Rows.Add(dr);
 
             using (var sqlConnection = new SqlConnection(_connectionString))
             using (var command = new SqlCommand())
@@ -47,7 +47,7 @@ namespace Architected.SampleDataAccess
                 var p = command.Parameters.Add("@ItemTable", SqlDbType.Structured);
                 p.Direction = ParameterDirection.Input;
                 p.TypeName = "MySimpleType";
-                p.Value = dataTableCore.CreateDataRecords();
+                p.Value = dataTable.CreateDataRecords();
                 
                 command.ExecuteNonQuery();
             }
