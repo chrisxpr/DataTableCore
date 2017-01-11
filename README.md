@@ -1,5 +1,7 @@
 # DataTableCore
-DataTable implementation for .net core when using ado.net
+After realising that the humble DataTable had not been ported to .NET Core.  I decided to create a quick helper class to fill in for this purpose of passing table value parameters as part of an application migration from .Net Framework to .Net core
+
+This project is provides a sample DataTable implementation for .net core when using ado.net
 
 For a user defined type such as:
 ```
