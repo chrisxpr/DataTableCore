@@ -5,9 +5,9 @@ using System.Data;
 
 namespace Architected.DataTableCore
 {
-    public class DataTableCore
+    public class DataTable
     {
-        public List<DataTableCoreColumn> Columns { get; } = new List<DataTableCoreColumn>();
+        public List<DataTableColumn> Columns { get; } = new List<DataTableColumn>();
 
         public List<Dictionary<string, object>> Rows { get; } = new List<Dictionary<string, object>>();
 
